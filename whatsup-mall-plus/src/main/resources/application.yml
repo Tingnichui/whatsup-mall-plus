@@ -1,0 +1,11 @@
+#禁用Thymeleaf模板缓存
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    username: gh
+    password: 123456
+    url: jdbc:mysql://45.156.24.206:3306/newbee_mall_plus_db?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&useAffectedRows=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8080
