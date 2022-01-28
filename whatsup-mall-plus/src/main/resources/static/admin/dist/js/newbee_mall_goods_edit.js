@@ -79,7 +79,7 @@ $('#saveButton').click(function () {
     var sellingPrice = $('#sellingPrice').val();
     var goodsIntro = $('#goodsIntro').val();
     var stockNum = $('#stockNum').val();
-    var goodsSellStatus = $("input[name='goodsSellStatus']:checked").val();
+    var goodsSellStatus = $("input[name='goodsSellStatus`']:checked").val();
     var goodsDetailContent = editorD.txt.html();
     var goodsCoverImg = $('#goodsCoverImg')[0].src;
     if (isNull(goodsCategoryId)) {

@@ -9,3 +9,21 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8080
+
+# 项目全局配置
+project:
+  name: whatsup-mall-plus # 项目名称
+  #  fileUploadPath: /opt/newbee-mall-plus/upload/  # 上传文件的默认url前缀，根据部署设置自行修改，linux下路径
+  fileUploadPath: E:\\upload\\           # 上传文件的默认url前缀，根据部署设置自行修改，windows下路径
+  orderUnpaidOverTime: 300 # 订单未支付超期时间，单位秒
+  serverUrl: http://localhost:8080 # 服务器地址
+#  redis
+  redis:
+    host: 45.156.24.206
+    port: 6379
+    password:
+    timeout: 5000ms
+    connect-timeout: 5000ms
+    expire: 400
+    client-type: lettuce
+

@@ -19,8 +19,8 @@ $(function () {
             {label: '创建时间', name: 'createTime', index: 'createTime', width: 60}
         ],
         height: 760,
-        rowNum: 20,
-        rowList: [20, 50, 80],
+        rowNum: 10,
+        rowList: [10, 20, 50, 80],
         styleUI: 'Bootstrap',
         loadtext: '信息读取中...',
         rownumbers: false,
