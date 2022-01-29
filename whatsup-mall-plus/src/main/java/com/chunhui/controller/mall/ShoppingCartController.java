@@ -38,8 +38,7 @@ public class ShoppingCartController {
     private NewBeeMallCouponService newBeeMallCouponService;
 
     @GetMapping("/shop-cart")
-    public String cartListPage(HttpServletRequest request,
-                               HttpSession httpSession) {
+    public String cartListPage(HttpServletRequest request, HttpSession httpSession) {
         NewBeeMallUserVO user = (NewBeeMallUserVO) httpSession.getAttribute(Constants.MALL_USER_SESSION_KEY);
         int itemsTotal = 0;
         int priceTotal = 0;

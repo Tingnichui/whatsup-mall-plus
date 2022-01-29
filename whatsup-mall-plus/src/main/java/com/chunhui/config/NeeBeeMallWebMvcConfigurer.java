@@ -71,7 +71,6 @@ public class NeeBeeMallWebMvcConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/upload/**").addResourceLocations("file:" + ProjectConfig.getFileUploadPath());
         registry.addResourceHandler("/goods-img/**").addResourceLocations("file:" + ProjectConfig.getFileUploadPath());
         registry.addResourceHandler("/upload/**").addResourceLocations("file:" + ProjectConfig.getFileUploadPath());
     }

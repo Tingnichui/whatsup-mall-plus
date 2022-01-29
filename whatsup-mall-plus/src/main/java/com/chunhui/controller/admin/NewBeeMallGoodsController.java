@@ -228,4 +228,20 @@ public class NewBeeMallGoodsController {
         }
     }
 
+    /**
+     * 批量修改销售状态
+     */
+    @RequestMapping(value = "/goods/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Result delete(@RequestBody Long[] ids) {
+        if (ids.length < 1) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        if (newBeeMallGoodsService.batchDeleteGoodses(ids)) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult("修改失败");
+        }
+    }
+
 }

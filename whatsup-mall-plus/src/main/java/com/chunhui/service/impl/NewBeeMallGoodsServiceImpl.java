@@ -123,4 +123,10 @@ public class NewBeeMallGoodsServiceImpl implements NewBeeMallGoodsService {
         PageResult pageResult = new PageResult(newBeeMallSearchGoodsVOS, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
     }
+
+    @Override
+    public boolean batchDeleteGoodses(Long[] ids) {
+        return goodsMapper.batchDeleteGoodses(ids) > 0;
+
+    }
 }

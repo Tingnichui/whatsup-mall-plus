@@ -71,4 +71,6 @@ public interface NewBeeMallGoodsService {
      * @return
      */
     PageResult searchNewBeeMallGoods(PageQueryUtil pageUtil);
+
+    boolean batchDeleteGoodses(Long[] ids);
 }

@@ -1,14 +1,12 @@
-#禁用Thymeleaf模板缓存
-spring:
-  thymeleaf:
-    cache: false
-  datasource:
-    username: gh
-    password: 123456
-    url: jdbc:mysql://45.156.24.206:3306/newbee_mall_plus_db?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&useAffectedRows=true
-    driver-class-name: com.mysql.cj.jdbc.Driver
+# 服务器配置
 server:
-  port: 8080
+  port: 8888
+  undertow:
+    buffer-size: 1024
+    direct-buffers: true
+    threads:
+      io: 16
+    worker: 256
 
 # 项目全局配置
 project:
@@ -16,8 +14,19 @@ project:
   #  fileUploadPath: /opt/newbee-mall-plus/upload/  # 上传文件的默认url前缀，根据部署设置自行修改，linux下路径
   fileUploadPath: E:\\upload\\           # 上传文件的默认url前缀，根据部署设置自行修改，windows下路径
   orderUnpaidOverTime: 300 # 订单未支付超期时间，单位秒
-  serverUrl: http://localhost:8080 # 服务器地址
-#  redis
+  serverUrl: http://localhost:8888 # 服务器地址
+
+spring:
+  #禁用Thymeleaf模板缓存
+  thymeleaf:
+    cache: false
+  #数据源配置
+  datasource:
+    username: gh
+    password: 123456
+    url: jdbc:mysql://45.156.24.206:3306/newbee_mall_plus_db?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true&useAffectedRows=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #  redis
   redis:
     host: 45.156.24.206
     port: 6379
@@ -26,4 +35,5 @@ project:
     connect-timeout: 5000ms
     expire: 400
     client-type: lettuce
+
 
