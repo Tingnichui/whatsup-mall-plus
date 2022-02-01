@@ -42,4 +42,6 @@ public interface NewBeeMallOrderMapper {
     int checkDone(@Param("orderIds") List<Long> asList);
 
     List<NewBeeMallOrder> selectPrePayOrders();
+
+    int deleteOrder(@Param("orderIds") List<Long> orderIds, @Param("orderStatus") int orderStatus);
 }

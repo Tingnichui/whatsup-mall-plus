@@ -142,6 +142,22 @@ public class NewBeeMallOrderController {
             return ResultGenerator.genFailResult(result);
         }
     }
+    /**
+     * 删除订单
+     */
+    @RequestMapping(value = "/orders/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteOrder(@RequestBody Long[] ids) {
+        if (ids.length < 1) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        String result = newBeeMallOrderService.deleteOrder(ids);
+        if (ServiceResultEnum.SUCCESS.getResult().equals(result)) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult(result);
+        }
+    }
 
 
 }

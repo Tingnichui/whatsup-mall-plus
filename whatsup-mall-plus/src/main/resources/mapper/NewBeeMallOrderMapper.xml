@@ -46,6 +46,7 @@
         <include refid="Base_Column_List"/>
         from tb_newbee_mall_order
         <where>
+                is_deleted = 0
             <if test="orderNo!=null and orderNo!=''">
                 and order_no = #{orderNo}
             </if>
@@ -228,6 +229,14 @@
     <update id="closeOrder">
         update tb_newbee_mall_order
         set order_status = #{orderStatus},update_time = now()
+        where order_id in
+        <foreach collection="orderIds" item="item" index="index"
+                 open="(" separator="," close=")">#{item}
+        </foreach>
+    </update>
+    <update id="deleteOrder">
+        update tb_newbee_mall_order
+        set is_deleted = #{orderStatus},update_time = now()
         where order_id in
         <foreach collection="orderIds" item="item" index="index"
                  open="(" separator="," close=")">#{item}

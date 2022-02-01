@@ -30,12 +30,17 @@ public class TaskStartupRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         List<NewBeeMallOrder> newBeeMallOrders = newBeeMallOrderMapper.selectPrePayOrders();
         for (NewBeeMallOrder order : newBeeMallOrders) {
+//            订单创建日期
             Date date = order.getCreateTime();
+//            转换为1970至今的毫秒
             Instant instant = date.toInstant();
+//            返回系统默认时区
             ZoneId zoneId = ZoneId.systemDefault();
-
+//            将创建时间转换为同时含有年月日时分秒的日期对象
             LocalDateTime add = instant.atZone(zoneId).toLocalDateTime();
+//            当前时间转化为同时含有年月日时分秒的日期对象
             LocalDateTime now = LocalDateTime.now();
+//            将创建时间+30min
             LocalDateTime expire = add.plusMinutes(UN_PAID_ORDER_EXPIRE_TIME);
             if (expire.isBefore(now)) {
                 // 已经过期，则加入延迟队列立即执行

@@ -14,8 +14,8 @@ import com.chunhui.controller.vo.*;
 import com.chunhui.dao.*;
 import com.chunhui.entity.*;
 import com.chunhui.service.NewBeeMallOrderService;
-//import com.chunhui.task.OrderUnPaidTask;
-//import com.chunhui.task.TaskService;
+import com.chunhui.task.OrderUnPaidTask;
+import com.chunhui.task.TaskService;
 import com.chunhui.util.BeanUtil;
 import com.chunhui.util.NumberUtil;
 import com.chunhui.util.PageQueryUtil;
@@ -51,8 +51,8 @@ public class NewBeeMallOrderServiceImpl implements NewBeeMallOrderService {
     private NewBeeMallSeckillMapper newBeeMallSeckillMapper;
     @Autowired
     private NewBeeMallSeckillSuccessMapper newBeeMallSeckillSuccessMapper;
-//    @Autowired
-//    private TaskService taskService;
+    @Autowired
+    private TaskService taskService;
 
     @Override
     public PageResult getNewBeeMallOrdersPage(PageQueryUtil pageUtil) {
@@ -193,6 +193,38 @@ public class NewBeeMallOrderServiceImpl implements NewBeeMallOrderService {
         // 未查询到数据 返回错误提示
         return ServiceResultEnum.DATA_NOT_EXIST.getResult();
     }
+    @Override
+    @Transactional
+    public String deleteOrder(Long[] ids) {
+        // 查询所有的订单 判断状态 修改状态和更新时间
+        List<NewBeeMallOrder> orders = newBeeMallOrderMapper.selectByPrimaryKeys(Arrays.asList(ids));
+        String errorOrderNos = "";
+        if (!CollectionUtils.isEmpty(orders)) {
+            for (NewBeeMallOrder newBeeMallOrder : orders) {
+                //  正常订单 未删除订单
+                if (newBeeMallOrder.getOrderStatus() >= 0 && newBeeMallOrder.getIsDeleted() == 0) {
+                    errorOrderNos += newBeeMallOrder.getOrderNo() + " ";
+                }
+            }
+            if (StringUtils.isEmpty(errorOrderNos)) {
+                // 可以执行删除操作
+                if (newBeeMallOrderMapper.deleteOrder(Arrays.asList(ids), NewBeeMallOrderStatusEnum.ORDER_DELETE.getOrderStatus()) > 0) {
+                    return ServiceResultEnum.SUCCESS.getResult();
+                } else {
+                    return ServiceResultEnum.DB_ERROR.getResult();
+                }
+            } else {
+                // 订单此时不可执行关闭操作
+                if (errorOrderNos.length() > 0 && errorOrderNos.length() < 100) {
+                    return errorOrderNos + "订单不能执行删除操作";
+                } else {
+                    return "你选择的订单不能执行删除操作";
+                }
+            }
+        }
+        // 未查询到数据 返回错误提示
+        return ServiceResultEnum.DATA_NOT_EXIST.getResult();
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -284,7 +316,7 @@ public class NewBeeMallOrderServiceImpl implements NewBeeMallOrderService {
             NewBeeMallException.fail(ServiceResultEnum.DB_ERROR.getResult());
         }
         // 订单支付超期任务，超过300秒自动取消订单
-//        taskService.addTask(new OrderUnPaidTask(newBeeMallOrder.getOrderId(), ProjectConfig.getOrderUnpaidOverTime() * 1000));
+        taskService.addTask(new OrderUnPaidTask(newBeeMallOrder.getOrderId(), ProjectConfig.getOrderUnpaidOverTime() * 1000));
         // 所有操作成功后，将订单号返回，以供Controller方法跳转到订单详情
         return orderNo;
     }

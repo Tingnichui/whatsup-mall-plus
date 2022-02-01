@@ -1,6 +1,6 @@
 # 服务器配置
 server:
-  port: 8888
+  port: 8090
   undertow:
     buffer-size: 1024
     direct-buffers: true
@@ -11,15 +11,19 @@ server:
 # 项目全局配置
 project:
   name: whatsup-mall-plus # 项目名称
-  #  fileUploadPath: /opt/newbee-mall-plus/upload/  # 上传文件的默认url前缀，根据部署设置自行修改，linux下路径
-  fileUploadPath: E:\\upload\\           # 上传文件的默认url前缀，根据部署设置自行修改，windows下路径
+  #  fileUploadPath: /opt/newbee-mall-plus/upload/  # 上传文件的默认url前缀，根据部署设置自行修改，linux下路径  E:\\upload\\
+  fileUploadPath: /opt/whatsup-mall-plus/upload/           # 上传文件的默认url前缀，根据部署设置自行修改，windows下路径
   orderUnpaidOverTime: 300 # 订单未支付超期时间，单位秒
-  serverUrl: http://localhost:8888 # 服务器地址
+  serverUrl: http://45.156.24.206:8090 # 服务器地址
 
 spring:
   #禁用Thymeleaf模板缓存
   thymeleaf:
     cache: false
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   #数据源配置
   datasource:
     username: gh

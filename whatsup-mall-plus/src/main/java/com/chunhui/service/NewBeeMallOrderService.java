@@ -133,4 +133,6 @@ public interface NewBeeMallOrderService {
     String paySuccess(String orderNo, int payType);
 
     List<NewBeeMallOrderItemVO> getOrderItems(Long id);
+
+    String deleteOrder(Long[] ids);
 }

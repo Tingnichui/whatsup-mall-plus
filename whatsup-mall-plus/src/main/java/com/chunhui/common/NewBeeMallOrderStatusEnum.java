@@ -25,7 +25,8 @@ public enum NewBeeMallOrderStatusEnum {
     ORDER_SUCCESS(4, "交易成功"),
     ORDER_CLOSED_BY_MALLUSER(-1, "手动关闭"),
     ORDER_CLOSED_BY_EXPIRED(-2, "超时关闭"),
-    ORDER_CLOSED_BY_JUDGE(-3, "商家关闭");
+    ORDER_CLOSED_BY_JUDGE(-3, "商家关闭"),
+    ORDER_DELETE(1, "后端删除");
 
     private int orderStatus;
 
