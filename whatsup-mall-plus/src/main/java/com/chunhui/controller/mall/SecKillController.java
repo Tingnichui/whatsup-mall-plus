@@ -15,6 +15,7 @@ import com.chunhui.util.BeanUtil;
 import com.chunhui.util.MD5Util;
 import com.chunhui.util.Result;
 import com.chunhui.util.ResultGenerator;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 
 @Controller
 public class SecKillController {
+
 
     @Autowired
     private NewBeeMallSeckillService newBeeMallSeckillService;
@@ -177,6 +179,9 @@ public class SecKillController {
             Date seckillEnd = newBeeMallSeckillGoodsVO.getSeckillEnd();
             newBeeMallSeckillGoodsVO.setStartDate(seckillBegin.getTime());
             newBeeMallSeckillGoodsVO.setEndDate(seckillEnd.getTime());
+            List<Long> userIds = newBeeMallSeckillService.selectBySeckillId(seckillId);
+            userIds.forEach(id -> redisCache.setCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, id));
+            redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckillId,newBeeMallGoods.getStockNum());
             redisCache.setCacheObject(Constants.SECKILL_GOODS_DETAIL + seckillId, newBeeMallSeckillGoodsVO);
         }
         return ResultGenerator.genSuccessResult(newBeeMallSeckillGoodsVO);

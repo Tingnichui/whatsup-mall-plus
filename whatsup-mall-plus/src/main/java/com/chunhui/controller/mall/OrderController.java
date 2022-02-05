@@ -57,6 +57,13 @@ public class OrderController {
     @Autowired
     private AlipayConfig alipayConfig;
 
+    /**
+     * 微信支付成功后的详情页
+     * @param request
+     * @param orderNo
+     * @param httpSession
+     * @return
+     */
     @GetMapping("/orders/{orderNo}")
     public String orderDetailPage(HttpServletRequest request, @PathVariable("orderNo") String orderNo, HttpSession httpSession) {
         NewBeeMallUserVO user = (NewBeeMallUserVO) httpSession.getAttribute(Constants.MALL_USER_SESSION_KEY);
@@ -194,12 +201,19 @@ public class OrderController {
         }
     }
 
+    /**
+     * 支付宝回跳
+     * @param request
+     * @param orderNo
+     * @param userId
+     * @return
+     */
     @GetMapping("/returnOrders/{orderNo}/{userId}")
     public String returnOrderDetailPage(HttpServletRequest request, @PathVariable String orderNo, @PathVariable Long userId) {
         log.info("支付宝return通知数据记录：orderNo: {}, 当前登陆用户：{}", orderNo, userId);
          NewBeeMallOrder newBeeMallOrder = judgeOrderUserId(orderNo, userId);
 //         将notifyUrl中逻辑放到此处：未支付订单更新订单状态
-         if (newBeeMallOrder.getOrderStatus() != NewBeeMallOrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
+         /*if (newBeeMallOrder.getOrderStatus() != NewBeeMallOrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                  || newBeeMallOrder.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
              throw new NewBeeMallException("订单关闭异常");
          }
@@ -210,7 +224,7 @@ public class OrderController {
          newBeeMallOrder.setUpdateTime(new Date());
          if (!newBeeMallOrderService.updateByPrimaryKeySelective(newBeeMallOrder)) {
              return "error/error_5xx";
-         }
+         }*/
         NewBeeMallOrderDetailVO orderDetailVO = newBeeMallOrderService.getOrderDetailByOrderNo(orderNo, userId);
         if (orderDetailVO == null) {
             return "error/error_5xx";
@@ -219,6 +233,12 @@ public class OrderController {
         return "mall/order-detail";
     }
 
+    /**
+     * 支付成功后的Ajax数据修改
+     * @param payType
+     * @param orderNo
+     * @return
+     */
     @PostMapping("/paySuccess")
     @ResponseBody
     public Result paySuccess(Integer payType, String orderNo) {

@@ -172,4 +172,10 @@ public class NewBeeMallSeckillServiceImpl implements NewBeeMallSeckillService {
         return seckillSuccessVO;
     }
 
+    @Override
+    public List<Long> selectBySeckillId(Long seckillId) {
+        List<Long> userIds = newBeeMallSeckillSuccessMapper.selectBySeckillId(seckillId);
+        return userIds;
+    }
+
 }

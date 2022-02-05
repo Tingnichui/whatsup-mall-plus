@@ -17,6 +17,12 @@
         from tb_newbee_mall_seckill_success
         where sec_id = #{secId,jdbcType=BIGINT}
     </select>
+    <select id="selectBySeckillId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select
+            user_id
+        from tb_newbee_mall_seckill_success
+        where seckill_id = #{seckillId,jdbcType=BIGINT}
+    </select>
     <select id="getSeckillSuccessByUserIdAndSeckillId"
             resultMap="BaseResultMap">
         select

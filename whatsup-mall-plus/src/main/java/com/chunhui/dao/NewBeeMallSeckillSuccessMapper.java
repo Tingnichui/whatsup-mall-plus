@@ -3,6 +3,8 @@ package com.chunhui.dao;
 
 import com.chunhui.entity.NewBeeMallSeckillSuccess;
 
+import java.util.List;
+
 public interface NewBeeMallSeckillSuccessMapper {
     int deleteByPrimaryKey(Integer secId);
 
@@ -17,4 +19,6 @@ public interface NewBeeMallSeckillSuccessMapper {
     int updateByPrimaryKey(NewBeeMallSeckillSuccess record);
 
     NewBeeMallSeckillSuccess getSeckillSuccessByUserIdAndSeckillId(Long userId, Long seckillId);
+
+    List<Long> selectBySeckillId(Long seckillId);
 }

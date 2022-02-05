@@ -339,10 +339,13 @@ public class NewBeeMallOrderServiceImpl implements NewBeeMallOrderService {
         newBeeMallOrder.setTotalPrice(newBeeMallSeckill.getSeckillPrice());
         newBeeMallOrder.setUserId(userId);
         newBeeMallOrder.setUserAddress("秒杀测试地址");
-        newBeeMallOrder.setOrderStatus((byte) NewBeeMallOrderStatusEnum.ORDER_PAID.getOrderStatus());
-        newBeeMallOrder.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
-        newBeeMallOrder.setPayType((byte) PayTypeEnum.WEIXIN_PAY.getPayType());
-        newBeeMallOrder.setPayTime(new Date());
+        newBeeMallOrder.setOrderStatus((byte) NewBeeMallOrderStatusEnum.ORDER_PRE_PAY.getOrderStatus());
+        newBeeMallOrder.setPayStatus((byte) PayStatusEnum.PAY_ING.getPayStatus());
+        newBeeMallOrder.setPayType((byte) PayTypeEnum.NOT_PAY.getPayType());
+//        newBeeMallOrder.setOrderStatus((byte) NewBeeMallOrderStatusEnum.ORDER_PAID.getOrderStatus());
+//        newBeeMallOrder.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
+//        newBeeMallOrder.setPayType((byte) PayTypeEnum.WEIXIN_PAY.getPayType());
+//        newBeeMallOrder.setPayTime(new Date());
         String extraInfo = "";
         newBeeMallOrder.setExtraInfo(extraInfo);
         if (newBeeMallOrderMapper.insertSelective(newBeeMallOrder) <= 0) {
@@ -362,7 +365,7 @@ public class NewBeeMallOrderServiceImpl implements NewBeeMallOrderService {
             throw new NewBeeMallException("生成订单内部异常");
         }
         // 订单支付超期任务
-//        taskService.addTask(new OrderUnPaidTask(newBeeMallOrder.getOrderId(), 30 * 1000));
+        taskService.addTask(new OrderUnPaidTask(newBeeMallOrder.getOrderId(), ProjectConfig.getOrderUnpaidOverTime() * 1000));
         return orderNo;
     }
 
@@ -497,7 +500,7 @@ public class NewBeeMallOrderServiceImpl implements NewBeeMallOrderService {
         if (newBeeMallOrderMapper.updateByPrimaryKeySelective(newBeeMallOrder) <= 0) {
             return ServiceResultEnum.DB_ERROR.getResult();
         }
-//        taskService.removeTask(new OrderUnPaidTask(newBeeMallOrder.getOrderId()));
+        taskService.removeTask(new OrderUnPaidTask(newBeeMallOrder.getOrderId()));
         return ServiceResultEnum.SUCCESS.getResult();
     }
 
